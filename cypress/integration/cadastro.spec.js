@@ -60,4 +60,17 @@ describe('Cadastro/Signup', () => {
         singup.submit()
         singup.alertMessageShouldBe('Oops! Email com formato inválido.')
     })
+
+    it('Campos Obrigatorios/Required fields', function () {
+
+        singup.go()
+        singup.submit()
+        singup.alertMessageShouldBe('É necessário informar o nome')
+        singup.alertMessageShouldBe('É necessário informar o CPF')
+        singup.alertMessageShouldBe('É necessário informar o email')
+        singup.alertMessageShouldBe('É necessário informar o CEP')
+        singup.alertMessageShouldBe('É necessário informar o número do endereço')
+        singup.alertMessageShouldBe('Selecione o método de entrega')
+        singup.alertMessageShouldBe('Adicione uma foto da sua CNH')
+    })
 })
