@@ -1,6 +1,7 @@
 import singup from '../pages/SignupPages'
+import signupFactory from '../factories/SignupFactory'
 
-describe('Cadastro', () => {
+describe('Cadastro/Signup', () => {
 
     // before(function () {
     //     cy.log('Tudo aqui é executado uma única vez ANTES de TODOS os casos de testes')
@@ -18,16 +19,18 @@ describe('Cadastro', () => {
     //     cy.log('Tudo aqui é executado sempre DPOIS de CADA caso de teste')
     // })
 
-    beforeEach(function () {
-        cy.fixture('deliver').then((deliver) => {
-            this.deliver = deliver
-        })
-    })
+    // beforeEach(function () {
+    //     cy.fixture('deliver').then((deliver) => {
+    //         this.deliver = deliver
+    //     })
+    // })
 
     it('Usuário deve se tornar um entregador', function () {
 
+        var deliver = signupFactory.deliver()
+
         singup.go()
-        singup.fillForm(this.deliver.signup)
+        singup.fillForm(deliver)
         singup.submit()
 
         const expectedMessage = 'Recebemos os seus dados. Fique de olho na sua caixa de email, pois e em breve retornamos o contato.'
@@ -36,16 +39,24 @@ describe('Cadastro', () => {
 
     it('CPF incorreto', function () {
 
+        var deliver = signupFactory.deliver()
+
+        deliver.cpf = '00000014aa'
+
         singup.go()
-        singup.fillForm(this.deliver.cpf_inv)
+        singup.fillForm(deliver)
         singup.submit()
         singup.alertMessageShouldBe('Oops! CPF inválido')
     })
 
     it('Email incorreto', function () {
 
+        var deliver = signupFactory.deliver()
+
+        deliver.email = 'julio.com'
+
         singup.go()
-        singup.fillForm(this.deliver.email_inv)
+        singup.fillForm(deliver)
         singup.submit()
         singup.alertMessageShouldBe('Oops! Email com formato inválido.')
     })
